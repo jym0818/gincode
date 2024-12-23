@@ -1,23 +1,23 @@
 package main
 
-import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-)
+import "github.com/gin-gonic/gin"
 
 func main() {
 	r := gin.Default()
-	r.GET("/book", func(c *gin.Context) {
-		c.String(200, "hello world %d %s", 123, "aa")
-	})
-	r.POST("/book", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "添加成功"})
-	})
-	r.PUT("/book", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "修改成功"})
-	})
-	r.DELETE("/book", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "删除成功"})
-	})
+	userGroup := r.Group("/user")
+	{
+		userGroup.GET("/add", func(c *gin.Context) {
+			c.JSON(200, "hello world")
+		})
+		userGroup.GET("/delete", func(c *gin.Context) {
+			c.JSON(200, "delete")
+		})
+		xx := userGroup.Group("/book")
+		{
+			xx.GET("/add", func(c *gin.Context) {
+				c.JSON(200, "book-add")
+			})
+		}
+	}
 	r.Run()
 }
